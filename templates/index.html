@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+  <style>
+      .container{
+      margin-top:1%
+      }
+      .equipmentPro{
+      margin-top:2%
+      }
+     .form-control {
+    height: calc(1em + .75rem + 2px);
+    }
+
+
+.table-responsive {
+position: relative;
+height: 200px;
+overflow: auto;
+}
+.tblProp{
+height: 250px;
+}
+
+.table-wrapper-scroll-y {
+display: block;
+}
+
+  </style>
+  <!--Equipment form -->
+  {% load static %}
+
+<!-- NavBar start -->
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+  <a class="navbar-brand" href="#"><b>OpteBiz</b></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="#">About Us</a>
+    </div>
+  </div>
+</nav>
+<!-- NavBar end -->
+
+
+<div class="container">
+  <h5>Equipment :</h5>
+<!-- Row start -->
+<div class="row">
+<div class="tbl col-md-10">
+  <div class="table-responsive">
+  <table class="table table-bordered table-striped mb-0" id = "equipTable">
+    <thead>
+      <tr>
+        <th scope="col th-sm">AutoId</th>
+        <th scope="col th-sm">Id</th>
+        <th scope="col th-sm">Description</th>
+        <th scope="col th-sm">Active Status</th>
+      </tr>
+    </thead>
+       <tbody>
+     {% for i in mainData.0.Equipments %}
+      <tr>
+        <td class='equipData'>{{i.AutoId}}</td>
+        <td class='equipData'>{{i.Id}}</td>
+        <td class='equipData'>{{i.Description}}</td>
+        <td class='equipData'>{{i.ActiveStatus}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+</div>
+
+  <!-- Equipment Table end -->
+
+  <!-- Equipment form start -->
+  <form class="col-md-2" action="addEquip" method="POST">  {% csrf_token %}
+    <div class="form-group">
+     <input type="text" class="form-control" id="equipId" name ="equipId" placeholder="Enter Id">
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" id="equipDec" name = "equipDec" placeholder="Description">
+    </div>
+    <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" id="equipAs" name = "equipAs" >
+      <label class="form-check-label" for="exampleCheck1">Active Status</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Add/Edit</button>
+    <button type="reset" class="btn btn-primary">Reset</button>
+  </form>
+   <!-- Equipment form end -->
+</div>
+<!-- Row end -->
+
+
+<!-- Equipment Prop start -->
+<div class="equipmentPro">
+  <h5>Equipment Properties :</h5>
+  <div class="row">
+   <div class="tbl col-md-10">
+  <div class="table-responsive tblProp">
+  <table class="table table-bordered table-striped mb-0" >
+    <thead>
+      <tr>
+        <th scope="col th-sm">AutoId</th>
+        <th scope="col th-sm">EquipId</th>
+        <th scope="col th-sm">Id</th>
+        <th scope="col th-sm">Description</th>
+        <th scope="col th-sm">Value</th>
+        <th scope="col th-sm">UOM</th>
+        <th scope="col th-sm">Active Status</th>
+      </tr>
+    </thead>
+       <tbody id='equipPropTable'>
+    <!--  {% for i in mainData.1.EquipmentProp %}
+      <tr>
+        <td id = 'propAutoId'>{{i.AutoId}}</td>
+        <td id = 'propforeginId'>{{i.foreginId}}</td>
+        <td id = 'propId'>{{i.Id}}</td>
+        <td id = 'propDescription'>{{i.Description}}</td>
+        <td id = 'propValue'>{{i.Value}}</td>
+        <td id = 'propUOM'>{{i.UOM}}</td>
+        <td id = 'propActiveStatus'>{{i.ActiveStatus}}</td>
+      </tr>
+    {% endfor %} -->
+    </tbody>
+  </table>
+
+</div>
+</div>
+
+    <form class="col-md-2" action="addEquipProp" method="POST">  {% csrf_token %}
+
+      <div class="form-group">
+        <input id="foreignId" name="foreignId" type="hidden" value="">
+        <input type="text" class="form-control" id="equipPropId" name="equipPropId" placeholder="Id">
+      </div>
+      <div class="form-group">
+       <input type="text" class="form-control" id="equipPropDesc" name="equipPropDesc" placeholder="Description">
+      </div>
+      <div class="form-group">
+       <input type="text" class="form-control"  id="equipPropValue" name="equipPropValue" placeholder="Value">
+      </div>
+      <div class="form-group">
+        <select id="value" name="value" class="form-control">
+          <option selected>Kg</option>
+          <option>Ltr</option>
+        </select>
+      </div>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="equipPropAs" name="equipPropAs">
+        <label class="form-check-label" for="exampleCheck1">Active Status</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Add/Edit</button>
+      <button type="reset" class="btn btn-primary">Reset</button>
+    </form>
+  </div>
+</div>
+<!-- Equipment Prop end -->
+
+</div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src=" https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.3.1.ss.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script>
+  $(document).ready(function(){
+
+  
+    /* on page load 1st cell is background colour is changed */
+    // $("#equipTable tr:first-child > td").css("background-color", "#FFFF66");
+         $("#equipTable").change(function(){
+          console.log('table property changed')
+           // your code here
+        }).change();
+    /* click on equipment table cell start*/
+    $('.equipData').click(function(){
+         
+       console.log('Click Function')
+
+       /* get the row data, where user is clicked */
+       var currentRow=$(this).closest("tr");
+       console.log(currentRow)
+       var autoId=currentRow.find("td:eq(0)").text();
+       var id=currentRow.find("td:eq(1)").text();
+       var description=currentRow.find("td:eq(2)").text();
+       var activStatus=currentRow.find("td:eq(3)").text();
+       console.log(activStatus)
+
+       /* now row data stored into the input field ( equipment form ) */
+       $('#equipId').val(id);
+       $('#equipDec').val(description);
+       $('#foreignId').val(id)
+       if(activStatus == 'True'){
+          $('#equipAs').prop("checked", true);
+         }
+       else{
+          $("#equipAs").prop("checked", false);
+         } 
+
+          /* when user click on the equipment table cell, then perticular id data user get in the equipment prop table*/
+          /* using ajjax we send the request and get the response */
+          $.post('/equipProp',{'equip':id},function(response){
+            var trHTML = '';
+            /* in this way we used for each loop in jquery */
+            $("#equipPropTable").empty()
+            $.each(response, function (index, value) {
+                vAutoId = value.AutoId
+                vActiveStatus = value.ActiveStatus
+                vDescription = value.Description
+                vId = value.Id
+                vUOM = value.UOM
+                vValue = value.Value
+                vforeginId = value.foreginId
+            
+
+                /* stored the all the value in the table cell*/  
+                trHTML += "<tr><td class='equipPropData'>"+vAutoId+"</td><td>"+vforeginId+"</td><td>"+vId+"</td><td>"+vDescription+"</td><td>"+vValue+"</td><td>"+vUOM+"</td><td>"+vActiveStatus+"</td></tr>";
+
+                });
+
+             $('#equipPropTable').append(trHTML);
+
+          });
+
+      });
+    /* click on equipment table cell start*/
+
+      /* click on equipment prop table cell start*/
+         $("#equipPropTable").on("click", "td", function() {
+           
+            var currentRow=$(this).closest("tr");
+           console.log(currentRow)
+            var autoId=currentRow.find("td:eq(0)").text();
+            var equipId=currentRow.find("td:eq(1)").text();
+            var Id=currentRow.find("td:eq(2)").text();
+            var description =currentRow.find("td:eq(3)").text();
+            var value=currentRow.find("td:eq(4)").text();
+            var UOM=currentRow.find("td:eq(5)").text();
+            var activStatus=currentRow.find("td:eq(6)").text();
+            console.log('activStatus = ',activStatus)
+
+            $('#equipPropId').val(Id)
+            $('#equipPropDesc').val(description)
+            $('#equipPropValue').val(value)
+            $('#value').val(UOM)
+            if(activStatus == 'true'){
+              $('#equipPropAs').prop("checked", true);
+             }
+           else{
+              $("#equipPropAs").prop("checked", false);
+             } 
+           
+
+         });
+        /* click on equipment prop table cell end */
+
+
+  });
+
+
+
+</script>
+
+
+  </body>
+</html>
